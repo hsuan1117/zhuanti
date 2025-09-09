@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: mysql-initdb-config
-  namespace: radiusguard
+  
 data:
   schema.sql: |
     CREATE TABLE IF NOT EXISTS radacct (

@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: radius-sql-config
-  namespace: radiusguard
+  
 data:
   sql.conf: |
     sql {

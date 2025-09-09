@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: radius-service
-  namespace: radiusguard
+  
 spec:
   selector:
     app: radius-app
