@@ -6,7 +6,7 @@ from pyrad.dictionary import Dictionary
 import pyrad.packet
 import threading
 
-TOTAL = 10000
+TOTAL = 10
 PARALLEL = 10
 EACH = TOTAL // PARALLEL
 SERVER = "radius-service"
