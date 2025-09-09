@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: radius-tool
+  labels:
+    app: radius-tool
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: radius-tool
+  template:
+    metadata:
+      name: radius-tool
+      labels:
+        app: radius-tool
+    spec:
+      containers:
+        - name: radius-tool
+          image: docker.io/freeradius/freeradius-server:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 1812
+              hostPort: 1812
+              protocol: UDP
+            - containerPort: 1813
+              hostPort: 1813
+              protocol: UDP
+          command:
+            - "freeradius"
+            - "-X"
+#          volumeMounts:
+#            - mountPath: /etc/raddb/clients.conf
+#              name: client-conf
+#              subPath: clients.conf
+#            - mountPath: /etc/raddb/users
+#              name: users-conf
+#              subPath: users.conf
+#      volumes:
+#        - name: client-conf
+#          configMap:
+#            name: radius-config
+#            items:
+#              - key: clients.conf
+#                path: clients.conf
+#        - name: users-conf
+#          configMap:
+#            name: radius-config
+#            items:
+#              - key: users.conf
+#                path: users.conf
+
+      restartPolicy: Always
+      hostNetwork: true
