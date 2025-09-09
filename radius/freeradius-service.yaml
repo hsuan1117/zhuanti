@@ -16,4 +16,4 @@ spec:
       port: 1813
       targetPort: 1813
       name: acct
-  type: ClusterIP
+  type: LoadBalancer
