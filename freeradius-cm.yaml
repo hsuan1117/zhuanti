@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: radius-config
+  namespace: radiusguard
+data:
+  clients.conf: |
+    client main {
+      ipaddr = 0.0.0.0/0
+      secret = testing123
+    }
+  users.conf: |
+    testuser Cleartext-Password := "testpassword"
+      Reply-Message = "Hello, %{User-Name}"

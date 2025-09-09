@@ -6,7 +6,7 @@ spec:
   scaleTargetRef:
     apiVersion: apps/v1beta2
     kind: Deployment
-    name: radius-testenv
+    name: radius-app
   minReplicas: 1
   maxReplicas: 3
   targetCPUUtilizationPercentage: 50
