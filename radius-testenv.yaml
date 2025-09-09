@@ -15,6 +15,16 @@ spec:
       labels:
         app: radius-testenv
     spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - radius-testenv
+              topologyKey: "kubernetes.io/hostname"
       containers:
         - name: radius-testenv
           image: docker.io/freeradius/freeradius-server:latest
