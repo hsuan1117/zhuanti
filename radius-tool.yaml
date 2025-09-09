@@ -17,30 +17,6 @@ spec:
     spec:
       containers:
         - name: radius-tool
-          image: docker.io/freeradius/freeradius-server:latest
+          image: docker.io/hsuan1117/radius-tool:latest
           imagePullPolicy: IfNotPresent
-          command:
-            - "freeradius"
-            - "-X"
-#          volumeMounts:
-#            - mountPath: /etc/raddb/clients.conf
-#              name: client-conf
-#              subPath: clients.conf
-#            - mountPath: /etc/raddb/users
-#              name: users-conf
-#              subPath: users.conf
-#      volumes:
-#        - name: client-conf
-#          configMap:
-#            name: radius-config
-#            items:
-#              - key: clients.conf
-#                path: clients.conf
-#        - name: users-conf
-#          configMap:
-#            name: radius-config
-#            items:
-#              - key: users.conf
-#                path: users.conf
-
       restartPolicy: Always
