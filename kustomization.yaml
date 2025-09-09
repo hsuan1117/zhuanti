@@ -1,11 +1,11 @@
 resources:
-  - freeradius-backend.yaml
-  - freeradius-cm.yaml
-  - freeradius-service.yaml
-  - freeradius-sql-config.yaml
-  - mysql-deployment.yaml
-  - mysql-initdb-config.yaml
-  - mysql-secret.yaml
-  - mysql-service.yaml
+  - radius/freeradius-backend.yaml
+  - radius/freeradius-cm.yaml
+  - radius/freeradius-service.yaml
+  - radius/freeradius-sql-config.yaml
+  - radius/mysql-deployment.yaml
+  - radius/mysql-initdb-config.yaml
+  - radius/mysql-secret.yaml
+  - radius/mysql-service.yaml
 #  - radius-hpa.yaml
-  - radius-tool.yaml
+  - radius/radius-tool.yaml
