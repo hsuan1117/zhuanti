@@ -27,7 +27,7 @@ spec:
       containers:
         - name: radius-tool
           image: docker.io/hsuan1117/radius-tool:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           command:
             - "sleep"
             - "infinity"
