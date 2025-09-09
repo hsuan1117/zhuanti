@@ -26,7 +26,7 @@ spec:
                       - k8s-1
       containers:
         - name: radius-tool
-          image: docker.io/hsuan1117/radius-tool:latest
+          image: docker.io/hsuan1117/radius-tools:latest
           imagePullPolicy: Always
           command:
             - "sleep"
