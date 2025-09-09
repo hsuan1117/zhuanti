@@ -37,6 +37,10 @@ spec:
         - name: radius-testenv
           image: docker.io/freeradius/freeradius-server:latest
           imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              cpu: "5000m"
+              memory: "4G"
           ports:
             - containerPort: 1812
               hostPort: 1812
