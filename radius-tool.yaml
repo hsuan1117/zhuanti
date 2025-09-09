@@ -19,13 +19,6 @@ spec:
         - name: radius-tool
           image: docker.io/freeradius/freeradius-server:latest
           imagePullPolicy: IfNotPresent
-          ports:
-            - containerPort: 1812
-              hostPort: 1812
-              protocol: UDP
-            - containerPort: 1813
-              hostPort: 1813
-              protocol: UDP
           command:
             - "freeradius"
             - "-X"
@@ -51,4 +44,3 @@ spec:
 #                path: users.conf
 
       restartPolicy: Always
-      hostNetwork: true
