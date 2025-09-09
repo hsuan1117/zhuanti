@@ -58,6 +58,9 @@ spec:
             - mountPath: /etc/raddb/users
               name: users-conf
               subPath: users.conf
+            - mountPath: /etc/raddb/radiusd.conf
+              name: radiusd-conf
+              subPath: radiusd.conf
       volumes:
         - name: client-conf
           configMap:
@@ -71,5 +74,10 @@ spec:
             items:
               - key: users.conf
                 path: users.conf
-
+        - name: radiusd-conf
+          configMap:
+            name: radius-config
+            items:
+              - key: radiusd.conf
+                path: radiusd.conf
       restartPolicy: Always
