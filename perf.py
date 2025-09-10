@@ -54,67 +54,89 @@ def categorize_response_time(duration):
         return '< 100s'
 
 
-def send_auth_request(client, username, password, pkt_id, secret):
+def send_auth_request(client, username, password, pkt_id, secret, max_retries=3):
     """發送 RADIUS 認證請求"""
     start = time.time()
-    try:
-        # 建立認證封包，插入 Message-Authenticator 為 16 個 0x00
-        req = client.CreateAuthPacket(
-            code=pyrad.packet.AccessRequest,
-            User_Name=username,
-        )
-        req["User-Password"] = req.PwCrypt(password)
-        req["Message-Authenticator"] = 16 * six.b("\x00")
+    retries = 0
 
-        # 取得原始封包二進位資料
-        raw_packet = req.RequestPacket()
-        # 計算 hmac-md5
-        digest = hmac.new(secret, raw_packet, hashlib.md5)
-        # 寫回 Message-Authenticator
-        req["Message-Authenticator"] = bytes.fromhex(digest.hexdigest())
+    while retries <= max_retries:
+        try:
+            # 建立認證封包，插入 Message-Authenticator 為 16 個 0x00
+            req = client.CreateAuthPacket(
+                code=pyrad.packet.AccessRequest,
+                User_Name=username,
+            )
+            req["User-Password"] = req.PwCrypt(password)
+            req["Message-Authenticator"] = 16 * six.b("\x00")
 
-        # 發送請求
-        reply = client.SendPacket(req)
-        end = time.time()
-        duration = end - start
+            # 取得原始封包二進位資料
+            raw_packet = req.RequestPacket()
+            # 計算 hmac-md5
+            digest = hmac.new(secret, raw_packet, hashlib.md5)
+            # 寫回 Message-Authenticator
+            req["Message-Authenticator"] = bytes.fromhex(digest.hexdigest())
 
-        # 更新統計資訊
-        with stats_lock:
-            stats['total_sent'] += 1
-            stats['total_succeeded'] += 1
-            category = categorize_response_time(duration)
-            stats['response_times'][category] += 1
+            # 發送請求
+            reply = client.SendPacket(req)
+            end = time.time()
+            duration = end - start
 
-        # 儲存結果
-        with results_lock:
-            results.append({
-                'pkt_id': pkt_id,
-                'start': start,
-                'end': end,
-                'duration': duration
-            })
-        return True
-    except Exception as e:
-        end = time.time()
-        duration = end - start
+            # 更新統計資訊
+            with stats_lock:
+                if retries == 0:
+                    stats['total_sent'] += 1
+                else:
+                    stats['total_retransmits'] += retries
+                stats['total_succeeded'] += 1
+                category = categorize_response_time(duration)
+                stats['response_times'][category] += 1
 
-        # 更新統計資訊
-        with stats_lock:
-            stats['total_sent'] += 1
-            if "timeout" in str(e).lower():
-                stats['total_no_reply'] += 1
+            # 儲存結果
+            with results_lock:
+                results.append({
+                    'pkt_id': pkt_id,
+                    'start': start,
+                    'end': end,
+                    'duration': duration
+                })
+            return True
+
+        except Exception as e:
+            retries += 1
+
+            # 如果還有重試次數，繼續重試
+            if retries <= max_retries:
+                with stats_lock:
+                    if retries == 1:
+                        stats['total_sent'] += 1
+                    stats['total_retransmits'] += 1
+
+                # 短暫等待後重試
+                time.sleep(0.1)
+                continue
             else:
-                stats['total_failed'] += 1
+                # 已達最大重試次數，記錄失敗
+                end = time.time()
+                duration = end - start
 
-        # 儲存結果
-        with results_lock:
-            results.append({
-                'pkt_id': pkt_id,
-                'start': start,
-                'end': end,
-                'duration': duration
-            })
-        return False
+                # 更新統計資訊
+                with stats_lock:
+                    if retries == 1:  # 第一次發送
+                        stats['total_sent'] += 1
+                    if "timeout" in str(e).lower():
+                        stats['total_no_reply'] += 1
+                    else:
+                        stats['total_failed'] += 1
+
+                # 儲存結果
+                with results_lock:
+                    results.append({
+                        'pkt_id': pkt_id,
+                        'start': start,
+                        'end': end,
+                        'duration': duration
+                    })
+                return False
 
 
 def worker(worker_id, start_id, count, server, secret):
