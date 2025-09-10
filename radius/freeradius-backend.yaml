@@ -1,12 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  
   name: radius-app
   labels:
     app: radius-app
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: radius-app
