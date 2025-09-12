@@ -190,6 +190,13 @@ def print_statistics(total_time):
         print(f"             < 3s             : {pct_under_3s:.2f}%")
         print(f"             > 3s             : {pct_over_3s:.2f}%")
 
+    # 新增 P95 latency
+    durations = sorted(r['duration'] for r in results)
+    if durations:
+        idx = int(0.95 * len(durations)) - 1
+        p95_latency = durations[idx]
+        print("             P95 latency     :  {:.3f} s".format(p95_latency))
+
 
 def main():
     parser = argparse.ArgumentParser(description='RADIUS client performance test')
