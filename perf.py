@@ -182,13 +182,13 @@ def print_statistics(total_time):
 
     # 新增 <3s 與 >3s 百分比分析
     total_requests = len(results)
-    under_3s = sum(1 for r in results if r['duration'] < 3)
+    under_3s = sum(1 for r in results if r['duration'] < 2)
     over_3s = total_requests - under_3s
     if total_requests > 0:
         pct_under_3s = under_3s / total_requests * 100
         pct_over_3s = over_3s / total_requests * 100
-        print(f"             < 3s             : {pct_under_3s:.2f}%")
-        print(f"             > 3s             : {pct_over_3s:.2f}%")
+        print(f"             < 2s             : {pct_under_3s:.2f}%")
+        print(f"             > 2s             : {pct_over_3s:.2f}%")
 
 
 def main():
