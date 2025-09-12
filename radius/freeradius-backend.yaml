@@ -42,13 +42,13 @@ spec:
               protocol: UDP
             - containerPort: 1813
               protocol: UDP
-          resources:
-            requests:
-              cpu: "500m"
-              memory: "1000M"
-            limits:
-              cpu: "500m"
-              memory: "1000M"
+#          resources:
+#            requests:
+#              cpu: "500m"
+#              memory: "1000M"
+#            limits:
+#              cpu: "500m"
+#              memory: "1000M"
           volumeMounts:
             - mountPath: /etc/raddb/clients.conf
               name: client-conf
