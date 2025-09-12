@@ -1,3 +1,4 @@
+import os
 import time
 import csv
 from concurrent.futures import ThreadPoolExecutor
@@ -221,11 +222,15 @@ def main():
     total_time = end_time - start_time
 
     # 儲存結果到 CSV
-    save_results_to_csv('radius_results.csv')
+    if not os.path.exists('results'):
+        os.makedirs('results')
+
+    current_time_fn = time.strftime("%Y%m%d_%H%M%S")
+    save_results_to_csv(f"results/radius_results_{current_time_fn}.csv")
 
     # 印出統計資訊
     print_statistics(total_time)
-    print(f"\nResults saved to radius_results.csv")
+    print(f"\nResults saved to {' radius_results_' + current_time_fn + '.csv'}")
 
 
 if __name__ == "__main__":
