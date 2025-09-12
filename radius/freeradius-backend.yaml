@@ -44,11 +44,11 @@ spec:
               protocol: UDP
           resources:
             requests:
-              cpu: "100m"
-              memory: "500M"
+              cpu: "500m"
+              memory: "1000M"
             limits:
-              cpu: "100m"
-              memory: "500M"
+              cpu: "500m"
+              memory: "1000M"
           volumeMounts:
             - mountPath: /etc/raddb/clients.conf
               name: client-conf
