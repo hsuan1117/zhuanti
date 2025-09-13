@@ -3,7 +3,7 @@ import subprocess
 import datetime
 from datetime import timedelta
 from scale_cached import predict_zone
-
+import argparse
 LF = 48
 
 
@@ -30,11 +30,17 @@ def scale_radius_app(replicas: int):
 
 
 def main():
+    # date
+    parser = argparse.ArgumentParser(description="Proactive scaler simulation for a specific date.")
+    parser.add_argument("--date", type=str, required=True, help="Simulation date in YYYY-MM-DD format", default="2025-09-17")
+    args = parser.parse_args()
+    simulation_date = datetime.datetime.strptime(args.date, "%Y-%m-%d")
+    
+    
     """每 2.5 分鐘執行一次，預測並調整 replica 數量"""
     print("Starting proactive scaler - running every 2.5 minutes")
+    print("Simulation date:", simulation_date.strftime("%Y-%m-%d"))
 
-    # 設定模擬日期為 9/17
-    simulation_date = datetime.datetime(2025, 9, 17, 0, 0, 0)
     current_hour = 0
 
     while current_hour <= 23:
