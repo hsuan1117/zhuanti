@@ -20,7 +20,7 @@ def get_replica_count(predicted_rps):
 def scale_radius_app(replicas: int):
     """Scale the Kubernetes deployment "radius-app" to the specified number of replicas."""
     cmd = [
-        "kubectl", "scale", "deployment", "radius-app", f"--replicas={replicas}"
+        "./kubectl", "scale", "deployment", "radius-app", f"--replicas={replicas}"
     ]
     try:
         subprocess.run(cmd, check=True, capture_output=True)
