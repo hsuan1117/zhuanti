@@ -16,23 +16,23 @@ spec:
         app: radius-app
     spec:
       affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: kubernetes.io/hostname
-                    operator: NotIn
-                    values:
-                      - k8s-1
-#        podAntiAffinity:
+#        nodeAffinity:
 #          requiredDuringSchedulingIgnoredDuringExecution:
-#            - labelSelector:
-#                matchExpressions:
-#                  - key: app
-#                    operator: In
+#            nodeSelectorTerms:
+#              - matchExpressions:
+#                  - key: kubernetes.io/hostname
+#                    operator: NotIn
 #                    values:
-#                      - radius-app
-#              topologyKey: "kubernetes.io/hostname"
+#                      - k8s-1
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - radius-app
+              topologyKey: "kubernetes.io/hostname"
       containers:
         - name: radius-app
           image: docker.io/freeradius/freeradius-server:latest
