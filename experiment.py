@@ -163,7 +163,7 @@ def main():
                     'rps_modified': int(float(row['rps_modified']))
                 })
 
-        duration_per_hour = 150  # 2.5 minutes
+        duration_per_hour = 30  # 2.5 minutes
         total_stats = defaultdict(int)
 
         # 執行模擬
