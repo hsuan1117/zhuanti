@@ -72,8 +72,7 @@ def main():
         except Exception as ex:
             print(f"{datetime.datetime.now()}: Error determining or applying scale: {ex}")
 
-        # 等待 2.5 分鐘
-        time.sleep(150)  # 2.5 分鐘 = 150 秒
+        time.sleep(30)
 
         # 移動到下一個小時
         current_hour += 1
