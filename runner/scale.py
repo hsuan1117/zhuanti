@@ -11,8 +11,8 @@ def get_replica_count(predicted_rps):
     """根據預測的 RPS 返回需要的 replica 數量"""
     if predicted_rps <= 160:
         return 1
-    elif predicted_rps <= 320:
-        return 2
+    # elif predicted_rps <= 320:
+    #     return 2
     else:
         return 3
 
