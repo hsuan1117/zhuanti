@@ -7,5 +7,5 @@ resources:
   - radius/mysql-initdb-config.yaml
   - radius/mysql-secret.yaml
   - radius/mysql-service.yaml
-#  - radius/radius-hpa.yaml
+  - radius/radius-hpa.yaml
   - radius/radius-tool.yaml
