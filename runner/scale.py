@@ -28,6 +28,15 @@ def scale_radius_app(replicas: int):
     except subprocess.CalledProcessError as e:
         print(f"{datetime.datetime.now()}: Scaling failed: {e.stderr.decode().strip()}")
 
+    cmd = [
+        "./kubectl", "rollout", "restart", "deployment/radius-app"
+    ]
+    try:
+        subprocess.run(cmd, check=True, capture_output=True)
+        print(f"{datetime.datetime.now()}: Restarted deployment radius-app")
+    except subprocess.CalledProcessError as e:
+        print(f"{datetime.datetime.now()}: Restart failed: {e.stderr.decode().strip()}")
+
 
 def main():
     # date
