@@ -183,17 +183,18 @@ def main():
             actual_rps = stats['total_sent'] / elapsed if elapsed > 0 else 0
             success_rate = (stats['total_succeeded'] / stats['total_sent'] * 100) if stats['total_sent'] > 0 else 0
             p95, p99 = calculate_percentiles(stats['response_times'])
+            avg_latency = (sum(stats['response_times']) / len(stats['response_times']) * 1000) if stats['response_times'] else 0
 
             # 輸出結果
             log_print(f"  Sent: {stats['total_sent']}, Success: {stats['total_succeeded']}, "
                       f"Failed: {stats['total_failed']}, Timeout: {stats['total_timeout']}")
-            log_print(f"  Success Rate: {success_rate:.1f}%, P95: {p95:.1f}ms, P99: {p99:.1f}ms")
+            log_print(f"  Success Rate: {success_rate:.1f}%, Avg Latency: {avg_latency:.1f}ms, P95: {p95:.1f}ms, P99: {p99:.1f}ms")
 
             # 寫入 CSV
             csv_writer.writerow([
                 hour, rps, f"{actual_rps:.1f}", stats['total_sent'],
                 stats['total_succeeded'], stats['total_failed'], stats['total_timeout'],
-                f"{success_rate:.1f}", f"{p95:.1f}", f"{p99:.1f}"
+                f"{success_rate:.1f}", f"{avg_latency:.1f}", f"{p95:.1f}", f"{p99:.1f}"
             ])
             csv_file.flush()
 
